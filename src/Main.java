@@ -1,22 +1,56 @@
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        File file = new File("test.txt");
 
-        File dir = new File("G:/JavaLearn/workWithFiles/NewDir");
+        System.out.println("Имя файла: " + file.getName());
+        System.out.println("Родительская папка: " + file.getParent());
 
-        boolean created = dir.mkdir();
-        if (created) {
-            System.out.println("Folder has been created");
+        try {
+            boolean created = file.createNewFile();
+            if (created) {
+                System.out.println("Файл создан");
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
-        // Переименуем каталог
-        File newDir = new File("G:/JavaLearn/workWithFiles/NewDir2");
-        dir.renameTo(newDir);
-        // Удалим каталог
-        boolean deleted = newDir.delete();
-        if (deleted) {
-            System.out.println("Folder has been deleted");
+
+        try(FileWriter writer = new FileWriter( file, true))
+        {
+            Scanner scan = new Scanner(System.in);
+            // запись всей строки
+            System.out.println("Введите текст: ");
+            String text = scan.nextLine();
+            writer.write(text);
+            // запись по символам
+            writer.append('\n' + "");
+
+            writer.flush();
         }
-        
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        try(FileReader reader = new FileReader("test.txt"))
+        {
+            char[] buf = new char[256];
+            int c;
+            while((c = reader.read(buf))>0){
+                if(c < 256){
+                    buf = Arrays.copyOf(buf, c);
+                }
+                System.out.print(buf);
+            }
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
     }
+
 }
