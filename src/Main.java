@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +12,10 @@ public class Main {
 
         String fileName = scan.nextLine();
         createFile(fileName);
+        writeFile(fileName);
 
     }
+// Создание файла:
 
     public static void createFile(String fileName) {
 
@@ -30,5 +33,20 @@ public class Main {
         }
 
     }
+// Запись данных в файл:
 
+    public static void writeFile(String fileName) {
+        try(FileWriter writer = new FileWriter(fileName, true))
+        {
+            // запись всей строки
+            Scanner scan = new Scanner(System.in);
+            String text = scan.nextLine();
+            writer.write(text);
+
+            writer.flush();
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 }
