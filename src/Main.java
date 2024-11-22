@@ -41,6 +41,7 @@ public class Main {
                     readFile(fileName);
                     break;
                 case 5:
+
                     break;
                 case 6:
                     System.out.print("Досвидания");
@@ -82,18 +83,18 @@ public class Main {
             Date date = new Date();
             System.out.print("Введите имя задачи: ");
             task.setName(scan.nextLine());
-            writer.write(task.getName() + "|");
+            writer.write(task.getName() + " | ");
 
             System.out.print("Введите описание задачи: ");
             task.setDescription(scan.nextLine());
-            writer.write(task.getDescription() + "|");
+            writer.write(task.getDescription() + " | ");
             
             int year = date.getYear();
             int month = Calendar.getInstance().get(Calendar.MONTH);
             int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
             task.setCreateDate(year, month, day);
             
-            writer.write(formater.format(task.getCreateDate())+ "|");
+            writer.write(formater.format(task.getCreateDate())+ " | ");
             System.out.print("Введите количество дней на выполнение задачи: ");
             String deadline = scan.nextLine();
             task.setDeadline(Integer.parseInt(deadline));
@@ -118,7 +119,7 @@ public class Main {
             BufferedReader fileScanner = new BufferedReader(reader);
             while (fileScanner.ready()) {
                 String line = fileScanner.readLine();
-                String[] dataArray = line.split("\\|");
+                String[] dataArray = line.split(" \\| ");
                 String name = dataArray[0];
                 String description = dataArray[1];
                 Date createDate = formater.parse(dataArray[2]);
@@ -135,7 +136,7 @@ public class Main {
         }
 
         for (Task task : tasksList) {
-            System.out.println(task.getName() + " " + task.getDescription() + " " + task.getCreateDate() + " " + task.getDeadline() + " дней до завершения");
+            System.out.println("\n" + task.getName() + " " + task.getDescription() + " " + task.getCreateDate() + " " + task.getDeadline() + " дней до завершения\n");
         }
     }
 }

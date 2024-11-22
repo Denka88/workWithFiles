@@ -38,7 +38,7 @@ public class Task {
     }
 
     public void setCreateDate(int year, int month, int day) {
-        this.createDate = new Date(year, month, day);;
+        this.createDate = new Date(year, month, day);
     }
 
     public int getDeadline() {
