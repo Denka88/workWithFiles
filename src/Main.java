@@ -12,10 +12,11 @@ public class Main {
         Scanner scan = new Scanner(System.in);
 
         System.out.print("Введите имя желаемого файла: ");
+
+        String fileName = scan.nextLine();
         
         byte menu;
         do{
-            String fileName = scan.nextLine();
             System.out.printf("""
                     ===Главное меню===(Текущий файл: %s)
                     1.Сменить файл
@@ -25,6 +26,9 @@ public class Main {
                     5.Удалить задачу
                     6.Завершить работу программы
                     """, fileName);
+            if(fileName == ""){
+                System.out.println("!!!Имя файла не введено!!!");
+            }
             menu = scan.nextByte();
             switch(menu){
                 case 1:
@@ -41,7 +45,7 @@ public class Main {
                     readFile(fileName);
                     break;
                 case 5:
-
+                    deleteTaskFromFile(fileName);
                     break;
                 case 6:
                     System.out.print("Досвидания");
@@ -110,7 +114,7 @@ public class Main {
 
 //    Чтение данных из файла:
 
-    public static void readFile(String fileName) {
+    public static ArrayList<Task> readFile(String fileName) {
         ArrayList<Task> tasksList = new ArrayList<>();
         SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy");
         
@@ -135,8 +139,56 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        System.out.print("\n");
+        int i = 0;
         for (Task task : tasksList) {
-            System.out.println("\n" + task.getName() + " " + task.getDescription() + " " + task.getCreateDate() + " " + task.getDeadline() + " дней до завершения\n");
+            System.out.println(i++ + ". " + task.getName() + " " + task.getDescription() + " " + formater.format(task.getCreateDate()) + " " + task.getDeadline() + " дней до завершения");
+        }
+        System.out.print("\n");
+        return tasksList;
+    }
+    
+//    Удаление данных из файла
+    public static void deleteTaskFromFile(String fileName) {
+        
+        if(fileName==null){
+            System.out.println("Вы не указали имя файла");
+        }
+        
+        Scanner scan = new Scanner(System.in);
+
+        SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy");
+        
+        ArrayList<Task> tasks = readFile(fileName);
+        
+        System.out.print("Введите номер для удаления: ");
+        int numForDelete = scan.nextInt();
+        
+        Task deleteTarget = null;
+        for (Task task : tasks) {
+            if (tasks.indexOf(task) == numForDelete) {
+                deleteTarget = task;
+                break;
+            }
+        }
+        if (deleteTarget != null) {
+            tasks.remove(deleteTarget);
+        }
+        
+//        Тут запись
+        
+        try{
+            FileWriter writer = new FileWriter(fileName);
+            for (Task task : tasks) {
+                writer.write(task.getName() + " | ");
+                writer.write(task.getDescription() + " | ");
+                writer.write(formater.format(task.getCreateDate()) + " | ");
+                writer.write(String.valueOf(task.getDeadline()));
+                writer.append("\n");
+                writer.flush();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 }
