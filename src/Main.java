@@ -86,7 +86,6 @@ public class Main {
             System.out.print("Введите количество дней на выполнение задачи: ");
             String deadline = scan.nextLine();
             task.setDeadline(Integer.parseInt(deadline));
-            System.out.println(deadline);
             writer.write(deadline);
             writer.append("\n");
 
