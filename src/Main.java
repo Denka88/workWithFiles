@@ -11,43 +11,30 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
 
-        System.out.print("Введите имя желаемого файла: ");
-
-        String fileName = scan.nextLine();
+        String fileName = "task.txt";
+        createFile(fileName);
         
         byte menu;
         do{
             System.out.printf("""
-                    ===Главное меню===(Текущий файл: %s)
-                    1.Сменить файл
-                    2.Создать файл
-                    3.Создать задачу
-                    4.Посмотреть список задач
-                    5.Удалить задачу
-                    6.Завершить работу программы
+                    ===Главное меню===
+                    1.Создать задачу
+                    2.Посмотреть список задач
+                    3.Удалить задачу
+                    4.Завершить работу программы
                     """, fileName);
-            if(fileName == ""){
-                System.out.println("!!!Имя файла не введено!!!");
-            }
             menu = scan.nextByte();
             switch(menu){
                 case 1:
-                    System.out.print("Введите имя желаемого файла: ");
-                    fileName = scan.nextLine();
-                    break;
-                case 2:
-                    createFile(fileName);
-                    break;
-                case 3:
                     writeFile(fileName);
                     break;
-                case 4:
+                case 2:
                     readFile(fileName);
                     break;
-                case 5:
+                case 3:
                     deleteTaskFromFile(fileName);
                     break;
-                case 6:
+                case 4:
                     System.out.print("Досвидания");
                     break;
                 default:
@@ -55,7 +42,7 @@ public class Main {
                     break;
             }
             
-        }while (menu != 6);
+        }while (menu != 4);
 
     }
 // Создание файла:
@@ -63,13 +50,10 @@ public class Main {
     public static void createFile(String fileName) {
 
         File newFile = new File(fileName);
-
-        if(newFile.exists()){
-            System.out.println("Файл с таким именем существует");
-        }else{
+        if (!newFile.exists()) {
             try {
                 newFile.createNewFile();
-                System.out.println("Файл успешно создан");
+                System.out.println("Файла небыло. Файл успешно создан");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -150,10 +134,6 @@ public class Main {
     
 //    Удаление данных из файла
     public static void deleteTaskFromFile(String fileName) {
-        
-        if(fileName==null){
-            System.out.println("Вы не указали имя файла");
-        }
         
         Scanner scan = new Scanner(System.in);
 
